@@ -1,14 +1,20 @@
 #!/usr/bin/env pwsh
-# Common PowerShell functions analogous to common.sh (moved to powershell/)
+# 這個腳本的目的：
+# 提供所有 PowerShell 腳本共用的函數與變數。
+# 包括獲取專案根目錄、當前分支名稱，
+# 驗證功能分支名稱，以及生成功能相關的路徑資訊。
 
+# 獲取專案的根目錄
 function Get-RepoRoot {
     git rev-parse --show-toplevel
 }
 
+# 獲取當前分支名稱
 function Get-CurrentBranch {
     git rev-parse --abbrev-ref HEAD
 }
 
+# 驗證功能分支名稱是否符合命名規範
 function Test-FeatureBranch {
     param([string]$Branch)
     if ($Branch -notmatch '^[0-9]{3}-') {
@@ -19,11 +25,13 @@ function Test-FeatureBranch {
     return $true
 }
 
+# 獲取功能目錄的路徑
 function Get-FeatureDir {
     param([string]$RepoRoot, [string]$Branch)
     Join-Path $RepoRoot "specs/$Branch"
 }
 
+# 生成功能相關的路徑資訊
 function Get-FeaturePathsEnv {
     $repoRoot = Get-RepoRoot
     $currentBranch = Get-CurrentBranch
@@ -42,6 +50,7 @@ function Get-FeaturePathsEnv {
     }
 }
 
+# 檢查檔案是否存在
 function Test-FileExists {
     param([string]$Path, [string]$Description)
     if (Test-Path -Path $Path -PathType Leaf) {
@@ -53,6 +62,7 @@ function Test-FileExists {
     }
 }
 
+# 檢查目錄是否存在且非空
 function Test-DirHasFiles {
     param([string]$Path, [string]$Description)
     if ((Test-Path -Path $Path -PathType Container) -and (Get-ChildItem -Path $Path -ErrorAction SilentlyContinue | Where-Object { -not $_.PSIsContainer } | Select-Object -First 1)) {

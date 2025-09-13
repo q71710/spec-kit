@@ -1,20 +1,35 @@
 #!/usr/bin/env pwsh
+# 這個腳本的目的：
+# 用於更新代理（Agent）的上下文文件。
+# 它會根據功能分支的計畫文件提取相關資訊，
+# 並更新或創建對應的代理上下文文件。
+
 [CmdletBinding()]
 param([string]$AgentType)
+
+# 設定錯誤處理策略
 $ErrorActionPreference = 'Stop'
 
+# 獲取專案根目錄與當前分支名稱
 $repoRoot = git rev-parse --show-toplevel
 $currentBranch = git rev-parse --abbrev-ref HEAD
+
+# 設定功能目錄與計畫文件路徑
 $featureDir = Join-Path $repoRoot "specs/$currentBranch"
 $newPlan = Join-Path $featureDir 'plan.md'
+
+# 驗證計畫文件是否存在
 if (-not (Test-Path $newPlan)) { Write-Error "ERROR: No plan.md found at $newPlan"; exit 1 }
 
+# 設定代理上下文文件的路徑
 $claudeFile = Join-Path $repoRoot 'CLAUDE.md'
 $geminiFile = Join-Path $repoRoot 'GEMINI.md'
 $copilotFile = Join-Path $repoRoot '.github/copilot-instructions.md'
 
+# 顯示更新代理上下文文件的訊息
 Write-Output "=== Updating agent context files for feature $currentBranch ==="
 
+# 定義從計畫文件中提取值的函數
 function Get-PlanValue($pattern) {
     if (-not (Test-Path $newPlan)) { return '' }
     $line = Select-String -Path $newPlan -Pattern $pattern | Select-Object -First 1
@@ -22,12 +37,14 @@ function Get-PlanValue($pattern) {
     return ''
 }
 
+# 從計畫文件中提取相關資訊
 $newLang = Get-PlanValue 'Language/Version'
 $newFramework = Get-PlanValue 'Primary Dependencies'
 $newTesting = Get-PlanValue 'Testing'
 $newDb = Get-PlanValue 'Storage'
 $newProjectType = Get-PlanValue 'Project Type'
 
+# 定義初始化代理文件的函數
 function Initialize-AgentFile($targetFile, $agentName) {
     if (Test-Path $targetFile) { return }
     $template = Join-Path $repoRoot 'templates/agent-file-template.md'
@@ -48,6 +65,7 @@ function Initialize-AgentFile($targetFile, $agentName) {
     $content | Set-Content $targetFile -Encoding UTF8
 }
 
+# 定義更新代理文件的函數
 function Update-AgentFile($targetFile, $agentName) {
     if (-not (Test-Path $targetFile)) { Initialize-AgentFile $targetFile $agentName; return }
     $content = Get-Content $targetFile -Raw
@@ -65,6 +83,7 @@ function Update-AgentFile($targetFile, $agentName) {
     Write-Output "✅ $agentName context file updated successfully"
 }
 
+# 根據代理類型更新對應的上下文文件
 switch ($AgentType) {
     'claude' { Update-AgentFile $claudeFile 'Claude Code' }
     'gemini' { Update-AgentFile $geminiFile 'Gemini CLI' }
@@ -81,6 +100,7 @@ switch ($AgentType) {
     Default { Write-Error "ERROR: Unknown agent type '$AgentType'. Use: claude, gemini, copilot, or leave empty for all."; exit 1 }
 }
 
+# 顯示更新摘要
 Write-Output ''
 Write-Output 'Summary of changes:'
 if ($newLang) { Write-Output "- Added language: $newLang" }
