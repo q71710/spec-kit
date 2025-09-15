@@ -1,53 +1,53 @@
-## Contributing to Spec Kit
+## 為 Spec Kit 做出貢獻
 
-Hi there! We're thrilled that you'd like to contribute to Spec Kit. Contributions to this project are [released](https://help.github.com/articles/github-terms-of-service/#6-contributions-under-repository-license) to the public under the [project's open source license](LICENSE).
+嗨！我們很高興您願意為 Spec Kit 做出貢G獻。此專案的貢獻將根據[專案的開源授權](LICENSE)向大眾[發布](https://help.github.com/articles/github-terms-of-service/#6-contributions-under-repository-license)。
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+請注意，此專案附帶一份[貢獻者行為準則](CODE_OF_CONDUCT.md)。參與此專案即表示您同意遵守其條款。
 
-## Prerequisites for running and testing code
+## 執行與測試程式碼的先決條件
 
-These are one time installations required to be able to test your changes locally as part of the pull request (PR) submission process.
+這些是一次性安裝，以便您在提交拉取請求 (PR) 過程中能夠在本地測試您的變更。
 
-1. Install [Python 3.11+](https://www.python.org/downloads/)
-1. Install [uv](https://docs.astral.sh/uv/) for package management
-1. Install [Git](https://git-scm.com/downloads)
-1. Have an AI coding agent available: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), or [Gemini CLI](https://github.com/google-gemini/gemini-cli) are recommended, but we're working on adding support for other agents as well.
+1. 安裝 [Python 3.11+](https://www.python.org/downloads/)
+2. 安裝 [uv](https://docs.astral.sh/uv/) 以進行套件管理
+3. 安裝 [Git](https://git-scm.com/downloads)
+4. 準備一個 AI 編碼助理：建議使用 [Claude Code](https://www.anthropic.com/claude-code)、[GitHub Copilot](https://code.visualstudio.com/) 或 [Gemini CLI](https://github.com/google-gemini/gemini-cli)，但我們也正在努力增加對其他助理的支援。
 
-## Submitting a pull request
+## 提交拉取請求
 
 >[!NOTE]
->If your pull request introduces a large change that materially impacts the work of the CLI or the rest of the repository (e.g., you're introducing new templates, arguments, or otherwise major changes), make sure that it was **discussed and agreed upon** by the project maintainers. Pull requests with large changes that did not have a prior conversation and agreement will be closed.
+>如果您的拉取請求引入了重大變更，對 CLI 或儲存庫的其他部分產生實質性影響（例如，您正在引入新的範本、參數或其他主要變更），請確保已與專案維護者**討論並達成共識**。未經事先溝通和同意的重大變更拉取請求將被關閉。
 
-1. Fork and clone the repository
-1. Configure and install the dependencies: `uv sync`
-1. Make sure the CLI works on your machine: `uv run specify --help`
-1. Create a new branch: `git checkout -b my-branch-name`
-1. Make your change, add tests, and make sure everything still works
-1. Test the CLI functionality with a sample project if relevant
-1. Push to your fork and submit a pull request
-1. Wait for your pull request to be reviewed and merged.
+1. Fork 並複製儲存庫
+2. 設定並安裝依賴項：`uv sync`
+3. 確保 CLI 在您的機器上可以運作：`uv run specify --help`
+4. 建立一個新分支：`git checkout -b my-branch-name`
+5. 進行您的變更、新增測試，並確保一切仍然正常運作
+6. 如果相關，請使用範例專案測試 CLI 功能
+7. 推送到您的 fork 並提交拉取請求
+8. 等待您的拉取請求被審查和合併。
 
-Here are a few things you can do that will increase the likelihood of your pull request being accepted:
+以下是一些可以增加您的拉取請求被接受可能性的事項：
 
-- Follow the project's coding conventions.
-- Write tests for new functionality.
-- Update documentation (`README.md,` `spec-driven.md`) if your changes affect user-facing features.
-- Keep your change as focused as possible. If there are multiple changes you would like to make that are not dependent upon each other, consider submitting them as separate pull requests.
-- Write a [good commit message](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
-- Test your changes with the Spec-Driven Development workflow to ensure compatibility.
+- 遵循專案的編碼慣例。
+- 為新功能撰寫測試。
+- 如果您的變更影響到使用者面向的功能，請更新文件（`README.md`、`spec-driven.md`）。
+- 盡可能讓您的變更保持專注。如果您想進行多個互不依賴的變更，請考慮將它們作為單獨的拉取請求提交。
+- 撰寫一則[好的提交訊息](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)。
+- 使用規格驅動開發工作流程測試您的變更，以確保相容性。
 
-## Development workflow
+## 開發工作流程
 
-When working on spec-kit:
+在開發 spec-kit 時：
 
-1. Test changes with the `specify` CLI commands (`/specify`, `/plan`, `/tasks`) in your coding agent of choice
-2. Verify templates are working correctly in `templates/` directory
-3. Test script functionality in the `scripts/` directory
-4. Ensure memory files (`memory/constitution.md`) are updated if major process changes are made
+1. 在您選擇的編碼助理中使用 `specify` CLI 命令（`/specify`、`/plan`、`/tasks`）測試變更
+2. 驗證 `templates/` 目錄中的範本是否正常運作
+3. 測試 `scripts/` 目錄中的腳本功能
+4. 如果進行了重大的流程變更，請確保更新記憶體檔案（`memory/constitution.md`）
 
-## Resources
+## 資源
 
-- [Spec-Driven Development Methodology](./spec-driven.md)
-- [How to Contribute to Open Source](https://opensource.guide/how-to-contribute/)
-- [Using Pull Requests](https://help.github.com/articles/about-pull-requests/)
-- [GitHub Help](https://help.github.com)
+- [規格驅動開發方法論](./spec-driven.md)
+- [如何為開源做出貢獻](https://opensource.guide/how-to-contribute/)
+- [使用拉取請求](https://help.github.com/articles/about-pull-requests/)
+- [GitHub 說明](https://help.github.com)

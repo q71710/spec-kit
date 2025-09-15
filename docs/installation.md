@@ -1,86 +1,86 @@
-# Installation Guide
+# 安裝指南
 
-## Prerequisites
+## 先決條件
 
-- **Linux/macOS** (or Windows; PowerShell scripts now supported without WSL)
-- AI coding agent: [Claude Code](https://www.anthropic.com/claude-code), [GitHub Copilot](https://code.visualstudio.com/), or [Gemini CLI](https://github.com/google-gemini/gemini-cli)
-- [uv](https://docs.astral.sh/uv/) for package management
+- **Linux/macOS** (或 Windows；現在支援 PowerShell 指令碼，無需 WSL)
+- AI 編碼代理：[Claude Code](https://www.anthropic.com/claude-code)、[GitHub Copilot](https://code.visualstudio.com/) 或 [Gemini CLI](https://github.com/google-gemini/gemini-cli)
+- [uv](https://docs.astral.sh/uv/) 用於套件管理
 - [Python 3.11+](https://www.python.org/downloads/)
 - [Git](https://git-scm.com/downloads)
 
-## Installation
+## 安裝
 
-### Initialize a New Project
+### 初始化一個新專案
 
-The easiest way to get started is to initialize a new project:
+最簡單的入門方法是初始化一個新專案：
 
 ```bash
-uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>
+uvx --from git+https://github.com/github/spec-kit.git specify init <專案名稱>
 ```
 
-Or initialize in the current directory:
+或在目前目錄中初始化：
 
 ```bash
 uvx --from git+https://github.com/github/spec-kit.git specify init --here
 ```
 
-### Specify AI Agent
+### 指定 AI 代理
 
-You can proactively specify your AI agent during initialization:
-
-```bash
-uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --ai claude
-uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --ai gemini
-uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --ai copilot
-```
-
-### Specify Script Type (Shell vs PowerShell)
-
-All automation scripts now have both Bash (`.sh`) and PowerShell (`.ps1`) variants.
-
-Auto behavior:
-- Windows default: `ps`
-- Other OS default: `sh`
-- Interactive mode: you'll be prompted unless you pass `--script`
-
-Force a specific script type:
-```bash
-uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --script sh
-uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --script ps
-```
-
-### Ignore Agent Tools Check
-
-If you prefer to get the templates without checking for the right tools:
+您可以在初始化期間主動指定您的 AI 代理：
 
 ```bash
-uvx --from git+https://github.com/github/spec-kit.git specify init <project_name> --ai claude --ignore-agent-tools
+uvx --from git+https://github.com/github/spec-kit.git specify init <專案名稱> --ai claude
+uvx --from git+https://github.com/github/spec-kit.git specify init <專案名稱> --ai gemini
+uvx --from git+https://github.com/github/spec-kit.git specify init <專案名稱> --ai copilot
 ```
 
-## Verification
+### 指定指令碼類型 (Shell vs PowerShell)
 
-After initialization, you should see the following commands available in your AI agent:
-- `/specify` - Create specifications
-- `/plan` - Generate implementation plans  
-- `/tasks` - Break down into actionable tasks
+所有自動化指令碼現在都有 Bash (`.sh`) 和 PowerShell (`.ps1`) 兩種版本。
 
-The `.specify/scripts` directory will contain both `.sh` and `.ps1` scripts.
+自動行為：
+- Windows 預設：`ps`
+- 其他作業系統預設：`sh`
+- 互動模式：除非您傳遞 `--script`，否則系統會提示您
 
-## Troubleshooting
+強制指定特定的指令碼類型：
+```bash
+uvx --from git+https://github.com/github/spec-kit.git specify init <專案名稱> --script sh
+uvx --from git+https://github.com/github/spec-kit.git specify init <專案名稱> --script ps
+```
 
-### Git Credential Manager on Linux
+### 忽略代理工具檢查
 
-If you're having issues with Git authentication on Linux, you can install Git Credential Manager:
+如果您希望在不檢查正確工具的情況下取得範本：
+
+```bash
+uvx --from git+https://github.com/github/spec-kit.git specify init <專案名稱> --ai claude --ignore-agent-tools
+```
+
+## 驗證
+
+初始化後，您應該會在您的 AI 代理中看到以下可用命令：
+- `/specify` - 建立規格
+- `/plan` - 產生實作計畫
+- `/tasks` - 分解為可執行的任務
+
+`.specify/scripts` 目錄將同時包含 `.sh` 和 `.ps1` 指令碼。
+
+## 疑難排解
+
+### Linux 上的 Git 認證管理員
+
+如果您在 Linux 上遇到 Git 身份驗證問題，可以安裝 Git 認證管理員：
 
 ```bash
 #!/usr/bin/env bash
 set -e
-echo "Downloading Git Credential Manager v2.6.1..."
+echo "正在下載 Git Credential Manager v2.6.1..."
 wget https://github.com/git-ecosystem/git-credential-manager/releases/download/v2.6.1/gcm-linux_amd64.2.6.1.deb
-echo "Installing Git Credential Manager..."
+echo "正在安裝 Git Credential Manager..."
 sudo dpkg -i gcm-linux_amd64.2.6.1.deb
-echo "Configuring Git to use GCM..."
+echo "正在設定 Git 使用 GCM..."
 git config --global credential.helper manager
-echo "Cleaning up..."
+echo "正在清理..."
 rm gcm-linux_amd64.2.6.1.deb
 ```
