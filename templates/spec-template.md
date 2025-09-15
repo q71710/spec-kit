@@ -1,116 +1,116 @@
-# Feature Specification: [FEATURE NAME]
+# 功能規格：[功能名稱]
 
-**Feature Branch**: `[###-feature-name]`  
-**Created**: [DATE]  
-**Status**: Draft  
-**Input**: User description: "$ARGUMENTS"
+**功能分支**：`[###-功能名稱]`  
+**建立日期**：[日期]  
+**狀態**：草稿  
+**輸入**：使用者描述："$ARGUMENTS"
 
-## Execution Flow (main)
+## 執行流程 (主要)
 ```
-1. Parse user description from Input
-   → If empty: ERROR "No feature description provided"
-2. Extract key concepts from description
-   → Identify: actors, actions, data, constraints
-3. For each unclear aspect:
-   → Mark with [NEEDS CLARIFICATION: specific question]
-4. Fill User Scenarios & Testing section
-   → If no clear user flow: ERROR "Cannot determine user scenarios"
-5. Generate Functional Requirements
-   → Each requirement must be testable
-   → Mark ambiguous requirements
-6. Identify Key Entities (if data involved)
-7. Run Review Checklist
-   → If any [NEEDS CLARIFICATION]: WARN "Spec has uncertainties"
-   → If implementation details found: ERROR "Remove tech details"
-8. Return: SUCCESS (spec ready for planning)
+1. 從輸入解析使用者描述
+   → 若為空：錯誤 "未提供功能描述"
+2. 從描述中提取關鍵概念
+   → 識別：參與者、動作、資料、限制
+3. 對於每個不清楚的方面：
+   → 標記為 [需釐清：具體問題]
+4. 填寫使用者場景與測試部分
+   → 若無清晰的使用者流程：錯誤 "無法確定使用者場景"
+5. 產生功能需求
+   → 每個需求必須是可測試的
+   → 標記模糊的需求
+6. 識別關鍵實體 (若涉及資料)
+7. 執行審查檢查清單
+   → 若有任何 [需釐清]：警告 "規格存在不確定性"
+   → 若發現實作細節：錯誤 "請移除技術細節"
+8. 回傳：成功 (規格已準備好進行規劃)
 ```
 
 ---
 
-## ⚡ Quick Guidelines
-- ✅ Focus on WHAT users need and WHY
-- ❌ Avoid HOW to implement (no tech stack, APIs, code structure)
-- 👥 Written for business stakeholders, not developers
+## ⚡ 快速指引
+- ✅ 專注於使用者需要「什麼」以及「為何」需要
+- ❌ 避免「如何」實作 (無技術堆疊、API、程式碼結構)
+- 👥 為業務關係人撰寫，而非開發人員
 
-### Section Requirements
-- **Mandatory sections**: Must be completed for every feature
-- **Optional sections**: Include only when relevant to the feature
-- When a section doesn't apply, remove it entirely (don't leave as "N/A")
+### 章節要求
+- **強制性章節**：每個功能都必須完成
+- **選擇性章節**：僅在與功能相關時包含
+- 當某個章節不適用時，請完全移除 (不要保留為 "不適用")
 
-### For AI Generation
-When creating this spec from a user prompt:
-1. **Mark all ambiguities**: Use [NEEDS CLARIFICATION: specific question] for any assumption you'd need to make
-2. **Don't guess**: If the prompt doesn't specify something (e.g., "login system" without auth method), mark it
-3. **Think like a tester**: Every vague requirement should fail the "testable and unambiguous" checklist item
-4. **Common underspecified areas**:
-   - User types and permissions
-   - Data retention/deletion policies  
-   - Performance targets and scale
-   - Error handling behaviors
-   - Integration requirements
-   - Security/compliance needs
-
----
-
-## User Scenarios & Testing *(mandatory)*
-
-### Primary User Story
-[Describe the main user journey in plain language]
-
-### Acceptance Scenarios
-1. **Given** [initial state], **When** [action], **Then** [expected outcome]
-2. **Given** [initial state], **When** [action], **Then** [expected outcome]
-
-### Edge Cases
-- What happens when [boundary condition]?
-- How does system handle [error scenario]?
-
-## Requirements *(mandatory)*
-
-### Functional Requirements
-- **FR-001**: System MUST [specific capability, e.g., "allow users to create accounts"]
-- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]  
-- **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
-- **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
-- **FR-005**: System MUST [behavior, e.g., "log all security events"]
-
-*Example of marking unclear requirements:*
-- **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
-- **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
-
-### Key Entities *(include if feature involves data)*
-- **[Entity 1]**: [What it represents, key attributes without implementation]
-- **[Entity 2]**: [What it represents, relationships to other entities]
+### AI 生成指引
+當從使用者提示建立此規格時：
+1. **標記所有模糊之處**：對於任何您需要做的假設，請使用 [需釐清：具體問題]
+2. **不要猜測**：如果提示未指定某些內容 (例如，"登入系統" 但未說明驗證方法)，請標記它
+3. **像測試人員一樣思考**：每個模糊的需求都應該無法通過 "可測試且無歧義" 的檢查項目
+4. **常見的規格不足之處**：
+   - 使用者類型與權限
+   - 資料保留/刪除政策  
+   - 效能目標與規模
+   - 錯誤處理行為
+   - 整合需求
+   - 安全性/合規性需求
 
 ---
 
-## Review & Acceptance Checklist
-*GATE: Automated checks run during main() execution*
+## 使用者場景與測試 *(強制性)*
 
-### Content Quality
-- [ ] No implementation details (languages, frameworks, APIs)
-- [ ] Focused on user value and business needs
-- [ ] Written for non-technical stakeholders
-- [ ] All mandatory sections completed
+### 主要使用者故事
+[以淺顯易懂的語言描述主要使用者旅程]
 
-### Requirement Completeness
-- [ ] No [NEEDS CLARIFICATION] markers remain
-- [ ] Requirements are testable and unambiguous  
-- [ ] Success criteria are measurable
-- [ ] Scope is clearly bounded
-- [ ] Dependencies and assumptions identified
+### 驗收場景
+1. **假設** [初始狀態]，**當** [動作]，**則** [預期結果]
+2. **假設** [初始狀態]，**當** [動作]，**則** [預期結果]
+
+### 邊界案例
+- 當 [邊界條件] 時會發生什麼？
+- 系統如何處理 [錯誤場景]？
+
+## 需求 *(強制性)*
+
+### 功能需求
+- **FR-001**：系統必須 [具體能力，例如："允許使用者建立帳戶"]
+- **FR-002**：系統必須 [具體能力，例如："驗證電子郵件地址"]  
+- **FR-003**：使用者必須能夠 [關鍵互動，例如："重設密碼"]
+- **FR-004**：系統必須 [資料需求，例如："保存使用者偏好設定"]
+- **FR-005**：系統必須 [行為，例如："記錄所有安全事件"]
+
+*標記不清楚需求的範例：*
+- **FR-006**：系統必須透過 [需釐清：未指定驗證方法 - 電子郵件/密碼、SSO、OAuth？] 驗證使用者
+- **FR-007**：系統必須保留使用者資料 [需釐清：未指定保留期限]
+
+### 關鍵實體 *(若功能涉及資料則包含)*
+- **[實體 1]**：[它代表什麼，無實作細節的關鍵屬性]
+- **[實體 2]**：[它代表什麼，與其他實體的關係]
 
 ---
 
-## Execution Status
-*Updated by main() during processing*
+## 審查與驗收檢查清單
+*閘門：在 main() 執行期間自動執行檢查*
 
-- [ ] User description parsed
-- [ ] Key concepts extracted
-- [ ] Ambiguities marked
-- [ ] User scenarios defined
-- [ ] Requirements generated
-- [ ] Entities identified
-- [ ] Review checklist passed
+### 內容品質
+- [ ] 無實作細節 (語言、框架、API)
+- [ ] 專注於使用者價值與業務需求
+- [ ] 為非技術關係人撰寫
+- [ ] 所有強制性章節已完成
+
+### 需求完整性
+- [ ] 不再有 [需釐清] 標記
+- [ ] 需求是可測試且無歧義的  
+- [ ] 成功標準是可衡量的
+- [ ] 範圍已明確界定
+- [ ] 已識別依賴項與假設
+
+---
+
+## 執行狀態
+*由 main() 在處理過程中更新*
+
+- [ ] 已解析使用者描述
+- [ ] 已提取關鍵概念
+- [ ] 已標記模糊之處
+- [ ] 已定義使用者場景
+- [ ] 已產生需求
+- [ ] 已識別實體
+- [ ] 已通過審查檢查清單
 
 ---

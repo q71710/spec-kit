@@ -1,99 +1,99 @@
-# Implementation Plan: [FEATURE]
+# 實作計畫：[功能]
 
-<!-- VARIANT:sh - Run `/scripts/bash/update-agent-context.sh __AGENT__` for your AI assistant -->
-<!-- VARIANT:ps - Run `/scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__` for your AI assistant -->
+<!-- VARIANT:sh - 為您的 AI 助理執行 `/scripts/bash/update-agent-context.sh __AGENT__` -->
+<!-- VARIANT:ps - 為您的 AI 助理執行 `/scripts/powershell/update-agent-context.ps1 -AgentType __AGENT__` -->
 
-**Branch**: `[###-feature-name]` | **Date**: [DATE] | **Spec**: [link]
-**Input**: Feature specification from `/specs/[###-feature-name]/spec.md`
+**分支**：`[###-功能名稱]` | **日期**：[日期] | **規格**：[連結]
+**輸入**：來自 `/specs/[###-功能名稱]/spec.md` 的功能規格
 
-## Execution Flow (/plan command scope)
+## 執行流程 (/plan 命令範圍)
 ```
-1. Load feature spec from Input path
-   → If not found: ERROR "No feature spec at {path}"
-2. Fill Technical Context (scan for NEEDS CLARIFICATION)
-   → Detect Project Type from context (web=frontend+backend, mobile=app+api)
-   → Set Structure Decision based on project type
-3. Evaluate Constitution Check section below
-   → If violations exist: Document in Complexity Tracking
-   → If no justification possible: ERROR "Simplify approach first"
-   → Update Progress Tracking: Initial Constitution Check
-4. Execute Phase 0 → research.md
-   → If NEEDS CLARIFICATION remain: ERROR "Resolve unknowns"
-5. Execute Phase 1 → contracts, data-model.md, quickstart.md, agent-specific template file (e.g., `CLAUDE.md` for Claude Code, `.github/copilot-instructions.md` for GitHub Copilot, or `GEMINI.md` for Gemini CLI).
-6. Re-evaluate Constitution Check section
-   → If new violations: Refactor design, return to Phase 1
-   → Update Progress Tracking: Post-Design Constitution Check
-7. Plan Phase 2 → Describe task generation approach (DO NOT create tasks.md)
-8. STOP - Ready for /tasks command
-```
-
-**IMPORTANT**: The /plan command STOPS at step 7. Phases 2-4 are executed by other commands:
-- Phase 2: /tasks command creates tasks.md
-- Phase 3-4: Implementation execution (manual or via tools)
-
-## Summary
-[Extract from feature spec: primary requirement + technical approach from research]
-
-## Technical Context
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [single/web/mobile - determines source structure]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
-
-## Constitution Check
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
-
-**Simplicity**:
-- Projects: [#] (max 3 - e.g., api, cli, tests)
-- Using framework directly? (no wrapper classes)
-- Single data model? (no DTOs unless serialization differs)
-- Avoiding patterns? (no Repository/UoW without proven need)
-
-**Architecture**:
-- EVERY feature as library? (no direct app code)
-- Libraries listed: [name + purpose for each]
-- CLI per library: [commands with --help/--version/--format]
-- Library docs: llms.txt format planned?
-
-**Testing (NON-NEGOTIABLE)**:
-- RED-GREEN-Refactor cycle enforced? (test MUST fail first)
-- Git commits show tests before implementation?
-- Order: Contract→Integration→E2E→Unit strictly followed?
-- Real dependencies used? (actual DBs, not mocks)
-- Integration tests for: new libraries, contract changes, shared schemas?
-- FORBIDDEN: Implementation before test, skipping RED phase
-
-**Observability**:
-- Structured logging included?
-- Frontend logs → backend? (unified stream)
-- Error context sufficient?
-
-**Versioning**:
-- Version number assigned? (MAJOR.MINOR.BUILD)
-- BUILD increments on every change?
-- Breaking changes handled? (parallel tests, migration plan)
-
-## Project Structure
-
-### Documentation (this feature)
-```
-specs/[###-feature]/
-├── plan.md              # This file (/plan command output)
-├── research.md          # Phase 0 output (/plan command)
-├── data-model.md        # Phase 1 output (/plan command)
-├── quickstart.md        # Phase 1 output (/plan command)
-├── contracts/           # Phase 1 output (/plan command)
-└── tasks.md             # Phase 2 output (/tasks command - NOT created by /plan)
+1. 從輸入路徑載入功能規格
+   → 若找不到：錯誤 "在 {路徑} 找不到功能規格"
+2. 填寫技術背景（掃描「需釐清」）
+   → 從上下文中偵測專案類型（web=前端+後端, mobile=應用+API）
+   → 根據專案類型設定結構決策
+3. 評估下方的規範檢查部分
+   → 若存在違規：記錄於複雜度追蹤
+   → 若無法提供正當理由：錯誤 "請先簡化方法"
+   → 更新進度追蹤：初始規範檢查
+4. 執行階段 0 → research.md
+   → 若仍有「需釐清」：錯誤 "請解決未知問題"
+5. 執行階段 1 → contracts, data-model.md, quickstart.md, 特定於代理的範本檔案（例如，Claude Code 的 `CLAUDE.md`，GitHub Copilot 的 `.github/copilot-instructions.md`，或 Gemini CLI 的 `GEMINI.md`）。
+6. 重新評估規範檢查部分
+   → 若有新的違規：重構設計，返回階段 1
+   → 更新進度追蹤：設計後規範檢查
+7. 規劃階段 2 → 描述任務生成方法（不要建立 tasks.md）
+8. 停止 - 準備好執行 /tasks 命令
 ```
 
-### Source Code (repository root)
+**重要**：/plan 命令在步驟 7 停止。階段 2-4 由其他命令執行：
+- 階段 2：/tasks 命令建立 tasks.md
+- 階段 3-4：實作執行（手動或透過工具）
+
+## 摘要
+[從功能規格中提取：主要需求 + 來自研究的技術方法]
+
+## 技術背景
+**語言/版本**：[例如，Python 3.11, Swift 5.9, Rust 1.75 或 需釐清]  
+**主要依賴**：[例如，FastAPI, UIKit, LLVM 或 需釐清]  
+**儲存**：[若適用，例如，PostgreSQL, CoreData, 檔案 或 不適用]  
+**測試**：[例如，pytest, XCTest, cargo test 或 需釐清]  
+**目標平台**：[例如，Linux 伺服器, iOS 15+, WASM 或 需釐清]
+**專案類型**：[單一/web/行動 - 決定原始碼結構]  
+**效能目標**：[特定於領域，例如，1000 req/s, 10k lines/sec, 60 fps 或 需釐清]  
+**限制**：[特定於領域，例如，<200ms p95, <100MB 記憶體, 可離線 或 需釐清]  
+**規模/範圍**：[特定於領域，例如，10k 使用者, 1M LOC, 50 畫面 或 需釐清]
+
+## 規範檢查
+*閘門：必須在階段 0 研究前通過。在階段 1 設計後重新檢查。*
+
+**簡潔性**：
+- 專案數量：[#] (最多 3 - 例如，api, cli, tests)
+- 是否直接使用框架？（無封裝類別）
+- 單一資料模型？（除非序列化不同，否則無 DTO）
+- 避免設計模式？（無 Repository/UoW，除非有證實的需求）
+
+**架構**：
+- 每個功能都作為函式庫？（無直接的應用程式碼）
+- 列出的函式庫：[每個的名稱 + 目的]
+- 每個函式庫的 CLI：[帶有 --help/--version/--format 的命令]
+- 函式庫文件：是否計畫使用 llms.txt 格式？
+
+**測試（不可協商）**：
+- 是否強制執行紅-綠-重構循環？（測試必須先失敗）
+- Git 提交是否在實作前顯示測試？
+- 是否嚴格遵循順序：合約→整合→端對端→單元？
+- 是否使用真實依賴？（實際的資料庫，非模擬物件）
+- 整合測試是否涵蓋：新函式庫、合約變更、共享結構？
+- 禁止：在測試前實作、跳過紅色階段
+
+**可觀測性**：
+- 是否包含結構化日誌？
+- 前端日誌 → 後端？（統一串流）
+- 錯誤上下文是否足夠？
+
+**版本控制**：
+- 是否已分配版本號？（主版.次版.組建版）
+- 組建版是否在每次變更時遞增？
+- 是否處理破壞性變更？（平行測試、遷移計畫）
+
+## 專案結構
+
+### 文件（此功能）
 ```
-# Option 1: Single project (DEFAULT)
+specs/[###-功能]/
+├── plan.md              # 此檔案 (/plan 命令輸出)
+├── research.md          # 階段 0 輸出 (/plan 命令)
+├── data-model.md        # 階段 1 輸出 (/plan 命令)
+├── quickstart.md        # 階段 1 輸出 (/plan 命令)
+├── contracts/           # 階段 1 輸出 (/plan 命令)
+└── tasks.md             # 階段 2 輸出 (/tasks 命令 - 非由 /plan 建立)
+```
+
+### 原始碼（儲存庫根目錄）
+```
+# 選項 1：單一專案（預設）
 src/
 ├── models/
 ├── services/
@@ -105,7 +105,7 @@ tests/
 ├── integration/
 └── unit/
 
-# Option 2: Web application (when "frontend" + "backend" detected)
+# 選項 2：Web 應用程式（當偵測到 "前端" + "後端"）
 backend/
 ├── src/
 │   ├── models/
@@ -120,121 +120,121 @@ frontend/
 │   └── services/
 └── tests/
 
-# Option 3: Mobile + API (when "iOS/Android" detected)
+# 選項 3：行動 + API（當偵測到 "iOS/Android"）
 api/
-└── [same as backend above]
+└── [同上後端]
 
-ios/ or android/
-└── [platform-specific structure]
+ios/ 或 android/
+└── [特定於平台的結構]
 ```
 
-**Structure Decision**: [DEFAULT to Option 1 unless Technical Context indicates web/mobile app]
+**結構決策**：[預設為選項 1，除非技術背景指出為 web/行動應用程式]
 
-## Phase 0: Outline & Research
-1. **Extract unknowns from Technical Context** above:
-   - For each NEEDS CLARIFICATION → research task
-   - For each dependency → best practices task
-   - For each integration → patterns task
+## 階段 0：大綱與研究
+1. **從上方的技術背景中提取未知問題**：
+   - 對於每個「需釐清」→ 研究任務
+   - 對於每個依賴 → 最佳實踐任務
+   - 對於每個整合 → 模式任務
 
-2. **Generate and dispatch research agents**:
+2. **生成並派遣研究代理**：
    ```
-   For each unknown in Technical Context:
-     Task: "Research {unknown} for {feature context}"
-   For each technology choice:
-     Task: "Find best practices for {tech} in {domain}"
+   對於技術背景中的每個未知問題：
+     任務："為 {功能背景} 研究 {未知問題}"
+   對於每個技術選擇：
+     任務："在 {領域} 中尋找 {技術} 的最佳實踐"
    ```
 
-3. **Consolidate findings** in `research.md` using format:
-   - Decision: [what was chosen]
-   - Rationale: [why chosen]
-   - Alternatives considered: [what else evaluated]
+3. **在 `research.md` 中整合研究結果**，使用以下格式：
+   - 決策：[選擇了什麼]
+   - 理由：[為何選擇]
+   - 考慮過的替代方案：[評估過的其他方案]
 
-**Output**: research.md with all NEEDS CLARIFICATION resolved
+**輸出**：research.md，其中所有「需釐清」都已解決
 
-## Phase 1: Design & Contracts
-*Prerequisites: research.md complete*
+## 階段 1：設計與合約
+*先決條件：research.md 已完成*
 
-1. **Extract entities from feature spec** → `data-model.md`:
-   - Entity name, fields, relationships
-   - Validation rules from requirements
-   - State transitions if applicable
+1. **從功能規格中提取實體** → `data-model.md`：
+   - 實體名稱、欄位、關係
+   - 來自需求的驗證規則
+   - 若適用，狀態轉換
 
-2. **Generate API contracts** from functional requirements:
-   - For each user action → endpoint
-   - Use standard REST/GraphQL patterns
-   - Output OpenAPI/GraphQL schema to `/contracts/`
+2. **從功能需求生成 API 合約**：
+   - 每個使用者操作 → 端點
+   - 使用標準 REST/GraphQL 模式
+   - 將 OpenAPI/GraphQL 結構輸出到 `/contracts/`
 
-3. **Generate contract tests** from contracts:
-   - One test file per endpoint
-   - Assert request/response schemas
-   - Tests must fail (no implementation yet)
+3. **從合約生成合約測試**：
+   - 每個端點一個測試檔案
+   - 斷言請求/回應結構
+   - 測試必須失敗（尚未實作）
 
-4. **Extract test scenarios** from user stories:
-   - Each story → integration test scenario
-   - Quickstart test = story validation steps
+4. **從使用者故事中提取測試場景**：
+   - 每個故事 → 整合測試場景
+   - 快速入門測試 = 故事驗證步驟
 
-5. **Update agent file incrementally** (O(1) operation):
+5. **增量更新代理檔案**（O(1) 操作）：
    VARIANT-INJECT
-   - If exists: Add only NEW tech from current plan
-   - Preserve manual additions between markers
-   - Update recent changes (keep last 3)
-   - Keep under 150 lines for token efficiency
-   - Output to repository root
+   - 若存在：僅從當前計畫中新增新技術
+   - 保留標記之間的手動新增內容
+   - 更新最近變更（保留最近 3 個）
+   - 為提高 token 效率，保持在 150 行以下
+   - 輸出到儲存庫根目錄
 
-**Output**: data-model.md, /contracts/*, failing tests, quickstart.md, agent-specific file
+**輸出**：data-model.md, /contracts/*, 失敗的測試, quickstart.md, 特定於代理的檔案
 
-## Phase 2: Task Planning Approach
-*This section describes what the /tasks command will do - DO NOT execute during /plan*
+## 階段 2：任務規劃方法
+*本節描述 /tasks 命令將執行的操作 - 不在 /plan 期間執行*
 
-**Task Generation Strategy**:
-- Load `/templates/tasks-template.md` as base
-- Generate tasks from Phase 1 design docs (contracts, data model, quickstart)
-- Each contract → contract test task [P]
-- Each entity → model creation task [P] 
-- Each user story → integration test task
-- Implementation tasks to make tests pass
+**任務生成策略**：
+- 載入 `/templates/tasks-template.md` 作為基礎
+- 從階段 1 設計文件（合約、資料模型、快速入門）生成任務
+- 每個合約 → 合約測試任務 [P]
+- 每個實體 → 模型建立任務 [P] 
+- 每個使用者故事 → 整合測試任務
+- 使測試通過的實作任務
 
-**Ordering Strategy**:
-- TDD order: Tests before implementation 
-- Dependency order: Models before services before UI
-- Mark [P] for parallel execution (independent files)
+**排序策略**：
+- TDD 順序：測試先於實作
+- 依賴順序：模型先於服務，服務先於 UI
+- 標記 [P] 表示可平行執行（獨立檔案）
 
-**Estimated Output**: 25-30 numbered, ordered tasks in tasks.md
+**預計輸出**：在 tasks.md 中有 25-30 個編號、排序的任務
 
-**IMPORTANT**: This phase is executed by the /tasks command, NOT by /plan
+**重要**：此階段由 /tasks 命令執行，而非 /plan
 
-## Phase 3+: Future Implementation
-*These phases are beyond the scope of the /plan command*
+## 階段 3+：未來實作
+*這些階段超出 /plan 命令的範圍*
 
-**Phase 3**: Task execution (/tasks command creates tasks.md)  
-**Phase 4**: Implementation (execute tasks.md following constitutional principles)  
-**Phase 5**: Validation (run tests, execute quickstart.md, performance validation)
+**階段 3**：任務執行（/tasks 命令建立 tasks.md）  
+**階段 4**：實作（遵循規範原則執行 tasks.md）  
+**階段 5**：驗證（執行測試、執行 quickstart.md、效能驗證）
 
-## Complexity Tracking
-*Fill ONLY if Constitution Check has violations that must be justified*
+## 複雜度追蹤
+*僅當規範檢查有必須證明的違規時填寫*
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| 違規                | 為何需要   | 拒絕的更簡單替代方案原因 |
+| ------------------- | ---------- | ------------------------ |
+| [例如，第 4 個專案] | [當前需求] | [為何 3 個專案不足]      |
+| [例如，儲存庫模式]  | [特定問題] | [為何直接存取資料庫不足] |
 
 
-## Progress Tracking
-*This checklist is updated during execution flow*
+## 進度追蹤
+*此檢查清單在執行流程中更新*
 
-**Phase Status**:
-- [ ] Phase 0: Research complete (/plan command)
-- [ ] Phase 1: Design complete (/plan command)
-- [ ] Phase 2: Task planning complete (/plan command - describe approach only)
-- [ ] Phase 3: Tasks generated (/tasks command)
-- [ ] Phase 4: Implementation complete
-- [ ] Phase 5: Validation passed
+**階段狀態**：
+- [ ] 階段 0：研究完成 (/plan 命令)
+- [ ] 階段 1：設計完成 (/plan 命令)
+- [ ] 階段 2：任務規劃完成 (/plan 命令 - 僅描述方法)
+- [ ] 階段 3：任務已生成 (/tasks 命令)
+- [ ] 階段 4：實作完成
+- [ ] 階段 5：驗證通過
 
-**Gate Status**:
-- [ ] Initial Constitution Check: PASS
-- [ ] Post-Design Constitution Check: PASS
-- [ ] All NEEDS CLARIFICATION resolved
-- [ ] Complexity deviations documented
+**閘門狀態**：
+- [ ] 初始規範檢查：通過
+- [ ] 設計後規範檢查：通過
+- [ ] 所有「需釐清」已解決
+- [ ] 複雜度偏差已記錄
 
 ---
-*Based on Constitution v2.1.1 - See `/memory/constitution.md`*
+*基於規範 v2.1.1 - 請參閱 `/memory/constitution.md`*

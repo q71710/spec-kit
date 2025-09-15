@@ -1,15 +1,15 @@
 ---
-description: Create or update the feature specification from a natural language feature description.
+description: 從自然語言的功能描述中建立或更新功能規格。
 scripts:
   sh: scripts/bash/create-new-feature.sh --json "{ARGS}"
   ps: scripts/powershell/create-new-feature.ps1 -Json "{ARGS}"
 ---
 
-Given the feature description provided as an argument, do this:
+根據作為引數提供的功能描述，執行以下操作：
 
-1. Run the script `{SCRIPT}` from repo root and parse its JSON output for BRANCH_NAME and SPEC_FILE. All file paths must be absolute.
-2. Load `templates/spec-template.md` to understand required sections.
-3. Write the specification to SPEC_FILE using the template structure, replacing placeholders with concrete details derived from the feature description (arguments) while preserving section order and headings.
-4. Report completion with branch name, spec file path, and readiness for the next phase.
+1. 從儲存庫根目錄執行腳本 `{SCRIPT}` 並解析其 JSON 輸出以取得 BRANCH_NAME 和 SPEC_FILE。所有檔案路徑必須是絕對路徑。
+2. 載入 `templates/spec-template.md` 以了解必要的章節。
+3. 使用範本結構將規格寫入 SPEC_FILE，將佔位符替換為從功能描述（引數）衍生的具體細節，同時保留章節順序和標題。
+4. 報告完成情況，包含分支名稱、規格檔案路徑，並準備好進入下一階段。
 
-Note: The script creates and checks out the new branch and initializes the spec file before writing.
+注意：此腳本在寫入之前會建立並切換到新分支，並初始化規格檔案。
