@@ -1,33 +1,36 @@
-# Documentation
+````markdown
+# 文件
 
-This folder contains the documentation source files for Spec Kit, built using [DocFX](https://dotnet.github.io/docfx/).
+此資料夾包含使用 [DocFX](https://dotnet.github.io/docfx/) 建置的 Spec Kit 文件原始檔。
 
-## Building Locally
+## 本地建置
 
-To build the documentation locally:
+要在本地建置文件：
 
-1. Install DocFX:
+1. 安裝 DocFX：
    ```bash
    dotnet tool install -g docfx
    ```
 
-2. Build the documentation:
+2. 建置文件：
    ```bash
    cd docs
    docfx docfx.json --serve
    ```
 
-3. Open your browser to `http://localhost:8080` to view the documentation.
+3. 在瀏覽器中開啟 `http://localhost:8080` 以檢視文件。
 
-## Structure
+## 結構
 
-- `docfx.json` - DocFX configuration file
-- `index.md` - Main documentation homepage
-- `toc.yml` - Table of contents configuration
-- `installation.md` - Installation guide
-- `quickstart.md` - Quick start guide
-- `_site/` - Generated documentation output (ignored by git)
+- `docfx.json` - DocFX 設定檔
+- `index.md` - 主要文件首頁
+- `toc.yml` - 目錄設定
+- `installation.md` - 安裝指南
+- `quickstart.md` - 快速入門指南
+- `_site/` - 產生的文件輸出 (由 git 忽略)
 
-## Deployment
+## 部署
 
-Documentation is automatically built and deployed to GitHub Pages when changes are pushed to the `main` branch. The workflow is defined in `.github/workflows/docs.yml`.
+當變更被推送到 `main` 分支時，文件會自動建置並部署到 GitHub Pages。工作流程定義在 `.github/workflows/docs.yml` 中。
+
+````
