@@ -198,7 +198,7 @@ def get_key():
 
 def select_with_arrows(options: dict, prompt_text: str = "Select an option", default_key: str = None) -> str:
     """
-    Interactive selection using arrow keys with Rich Live display.
+    Interactive selection using arrow keys with Rich Live display. 
     
     Args:
         options: Dict with keys as option keys and values as descriptions
@@ -689,7 +689,7 @@ def ensure_executable_scripts(project_path: Path, tracker: StepTracker | None = 
                 continue
             try:
                 with script.open("rb") as f:
-                    if f.read(2) != b"#!":
+                    if f.read(2) != b"#!\n":
                         continue
             except Exception:
                 continue
@@ -731,7 +731,7 @@ def init(
     debug: bool = typer.Option(False, "--debug", help="Show verbose diagnostic output for network and extraction failures"),
 ):
     """
-    Initialize a new Specify project from the latest template.
+    Initialize a new Specify project from the latest template. 
     
     This command will:
     1. Check that required tools are installed (git is optional)
@@ -788,7 +788,7 @@ def init(
     
     console.print(Panel.fit(
         "[bold cyan]Specify Project Setup[/bold cyan]\n"
-        f"{'Initializing in current directory:' if here else 'Creating new project:'} [green]{project_path.name}[/green]"
+        f"{ 'Initializing in current directory:' if here else 'Creating new project:'} [green]{project_path.name}[/green]"
         + (f"\n[dim]Path: {project_path}[/dim]" if here else ""),
         border_style="cyan"
     ))
@@ -933,29 +933,29 @@ def init(
         steps_lines.append(f"1. [bold green]cd {project_name}[/bold green]")
         step_num = 2
     else:
-        steps_lines.append("1. You're already in the project directory!")
+        steps_lines.append("1. 您已經在專案目錄中！")
         step_num = 2
 
     if selected_ai == "claude":
-        steps_lines.append(f"{step_num}. Open in Visual Studio Code and start using / commands with Claude Code")
-        steps_lines.append("   - Type / in any file to see available commands")
-        steps_lines.append("   - Use /specify to create specifications")
-        steps_lines.append("   - Use /plan to create implementation plans")
-        steps_lines.append("   - Use /tasks to generate tasks")
+        steps_lines.append(f"{step_num}. 在 Visual Studio Code 中開啟並開始使用 Claude Code 的 / 指令")
+        steps_lines.append("   - 在任何檔案中輸入 / 以查看可用指令")
+        steps_lines.append("   - 使用 /specify 來建立規格")
+        steps_lines.append("   - 使用 /plan 來建立實作計畫")
+        steps_lines.append("   - 使用 /tasks 來產生任務")
     elif selected_ai == "gemini":
-        steps_lines.append(f"{step_num}. Use / commands with Gemini CLI")
-        steps_lines.append("   - Run gemini /specify to create specifications")
-        steps_lines.append("   - Run gemini /plan to create implementation plans")
-        steps_lines.append("   - Run gemini /tasks to generate tasks")
-        steps_lines.append("   - See GEMINI.md for all available commands")
+        steps_lines.append(f"{step_num}. 使用 Gemini CLI 的 / 指令")
+        steps_lines.append("   - 執行 gemini /specify 來建立規格")
+        steps_lines.append("   - 執行 gemini /plan 來建立實作計畫")
+        steps_lines.append("   - 執行 gemini /tasks 來產生任務")
+        steps_lines.append("   - 查看 GEMINI.md 以了解所有可用指令")
     elif selected_ai == "copilot":
-        steps_lines.append(f"{step_num}. Open in Visual Studio Code and use [bold cyan]/specify[/], [bold cyan]/plan[/], [bold cyan]/tasks[/] commands with GitHub Copilot")
+        steps_lines.append(f"{step_num}. 在 Visual Studio Code 中開啟並使用 GitHub Copilot 的 [bold cyan]/specify[/], [bold cyan]/plan[/], [bold cyan]/tasks[/] 指令")
 
     # Removed script variant step (scripts are transparent to users)
     step_num += 1
-    steps_lines.append(f"{step_num}. Update [bold magenta]CONSTITUTION.md[/bold magenta] with your project's non-negotiable principles")
+    steps_lines.append(f"{step_num}. 更新 [bold magenta]CONSTITUTION.md[/bold magenta] 檔案，加入您專案不可協商的原則")
 
-    steps_panel = Panel("\n".join(steps_lines), title="Next steps", border_style="cyan", padding=(1,2))
+    steps_panel = Panel("\n".join(steps_lines), title="接下來的步驟", border_style="cyan", padding=(1,2))
     console.print()  # blank line
     console.print(steps_panel)
     
