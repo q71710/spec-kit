@@ -40,7 +40,7 @@
 根據您使用的編碼代理初始化您的專案：
 
 ```bash
-uvx --from git+https://github.com/github/spec-kit.git specify init <專案名稱>
+uvx --from git+https://github.com/q71710/spec-kit.git specify init <專案名稱>
 ```
 
 ### 2. 建立規格
