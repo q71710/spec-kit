@@ -21,15 +21,15 @@ if (-not (Test-FeatureBranch -Branch $paths.CURRENT_BRANCH)) { exit 1 }
 
 # 驗證功能目錄是否存在
 if (-not (Test-Path $paths.FEATURE_DIR -PathType Container)) {
-    Write-Output "ERROR: Feature directory not found: $($paths.FEATURE_DIR)"
-    Write-Output "Run /specify first to create the feature structure."
+    Write-Output "錯誤：找不到功能目錄：$($paths.FEATURE_DIR)"
+    Write-Output "請先執行 /specify 來建立功能結構。"
     exit 1
 }
 
 # 驗證計畫文件是否存在
 if (-not (Test-Path $paths.IMPL_PLAN -PathType Leaf)) {
-    Write-Output "ERROR: plan.md not found in $($paths.FEATURE_DIR)"
-    Write-Output "Run /plan first to create the plan."
+    Write-Output "錯誤：在 $($paths.FEATURE_DIR) 中找不到 plan.md"
+    Write-Output "請先執行 /plan 來建立計畫。"
     exit 1
 }
 

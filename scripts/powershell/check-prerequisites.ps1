@@ -87,21 +87,21 @@ if ($PathsOnly) {
 
 # Validate required directories and files
 if (-not (Test-Path $paths.FEATURE_DIR -PathType Container)) {
-    Write-Output "ERROR: Feature directory not found: $($paths.FEATURE_DIR)"
-    Write-Output "Run /speckit.specify first to create the feature structure."
+    Write-Output "錯誤：找不到功能目錄：$($paths.FEATURE_DIR)"
+    Write-Output "請先執行 /speckit.specify 來建立功能結構。"
     exit 1
 }
 
 if (-not (Test-Path $paths.IMPL_PLAN -PathType Leaf)) {
-    Write-Output "ERROR: plan.md not found in $($paths.FEATURE_DIR)"
-    Write-Output "Run /speckit.plan first to create the implementation plan."
+    Write-Output "錯誤：在 $($paths.FEATURE_DIR) 中找不到 plan.md"
+    Write-Output "請先執行 /speckit.plan 來建立實作計畫。"
     exit 1
 }
 
 # Check for tasks.md if required
 if ($RequireTasks -and -not (Test-Path $paths.TASKS -PathType Leaf)) {
-    Write-Output "ERROR: tasks.md not found in $($paths.FEATURE_DIR)"
-    Write-Output "Run /speckit.tasks first to create the task list."
+    Write-Output "錯誤：在 $($paths.FEATURE_DIR) 中找不到 tasks.md"
+    Write-Output "請先執行 /speckit.tasks 來建立任務清單。"
     exit 1
 }
 

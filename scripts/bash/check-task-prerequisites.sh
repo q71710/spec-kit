@@ -37,15 +37,15 @@ check_feature_branch "$CURRENT_BRANCH" || exit 1
 
 # 驗證功能目錄是否存在
 if [[ ! -d "$FEATURE_DIR" ]]; then 
-  echo "ERROR: Feature directory not found: $FEATURE_DIR"; 
-  echo "Run /specify first."; 
+  echo "錯誤：找不到功能目錄：$FEATURE_DIR"; 
+  echo "請先執行 /specify。"; 
   exit 1; 
 fi
 
 # 驗證計畫文件是否存在
 if [[ ! -f "$IMPL_PLAN" ]]; then 
-  echo "ERROR: plan.md not found in $FEATURE_DIR"; 
-  echo "Run /plan first."; 
+  echo "錯誤：在 $FEATURE_DIR 中找不到 plan.md"; 
+  echo "請先執行 /plan。"; 
   exit 1; 
 fi
 

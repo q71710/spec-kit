@@ -20,147 +20,147 @@ $ARGUMENTS
 
 注意：此澄清工作流程預期在調用 `/speckit.plan` **之前**執行（並完成）。如果使用者明確表示他們跳過澄清（例如，探索性尖峰），您可以繼續，但必須警告下游重做風險增加。
 
-Execution steps:
+執行步驟：
 
 1. Run `{SCRIPT}` from repo root **once** (combined `--json --paths-only` mode / `-Json -PathsOnly`). Parse minimal JSON payload fields:
    - `FEATURE_DIR`
    - `FEATURE_SPEC`
-   - (Optionally capture `IMPL_PLAN`, `TASKS` for future chained flows.)
-   - If JSON parsing fails, abort and instruct user to re-run `/speckit.specify` or verify feature branch environment.
+   - （可選擇性地擷取 `IMPL_PLAN`、`TASKS` 以供未來連鎖流程使用。）
+   - 如果 JSON 解析失敗，中止並指導使用者重新執行 `/speckit.specify` 或驗證功能分支環境。
 
-2. Load the current spec file. Perform a structured ambiguity & coverage scan using this taxonomy. For each category, mark status: Clear / Partial / Missing. Produce an internal coverage map used for prioritization (do not output raw map unless no questions will be asked).
+2. 載入目前的規格檔案。使用以下分類法執行結構化的歧義和覆蓋掃描。對於每個類別，標記狀態：清楚 / 部分 / 遺失。產生用於優先順序排列的內部覆蓋地圖（除非沒有要詢問的問題，否則不輸出原始地圖）。
 
-   Functional Scope & Behavior:
-   - Core user goals & success criteria
-   - Explicit out-of-scope declarations
-   - User roles / personas differentiation
+   功能範圍與行為：
+   - 核心使用者目標與成功標準
+   - 明確的範圍外聲明
+   - 使用者角色 / 人物角色區分
 
-   Domain & Data Model:
-   - Entities, attributes, relationships
-   - Identity & uniqueness rules
-   - Lifecycle/state transitions
-   - Data volume / scale assumptions
+   領域與資料模型：
+   - 實體、屬性、關係
+   - 身份與唯一性規則
+   - 生命週期/狀態轉換
+   - 資料量 / 規模假設
 
-   Interaction & UX Flow:
-   - Critical user journeys / sequences
-   - Error/empty/loading states
-   - Accessibility or localization notes
+   互動與使用者體驗流程：
+   - 關鍵使用者歷程 / 序列
+   - 錯誤/空白/載入狀態
+   - 無障礙或本地化注意事項
 
-   Non-Functional Quality Attributes:
-   - Performance (latency, throughput targets)
-   - Scalability (horizontal/vertical, limits)
-   - Reliability & availability (uptime, recovery expectations)
-   - Observability (logging, metrics, tracing signals)
-   - Security & privacy (authN/Z, data protection, threat assumptions)
-   - Compliance / regulatory constraints (if any)
+   非功能性品質屬性：
+   - 效能（延遲、吞吐量目標）
+   - 可擴展性（水平/垂直、限制）
+   - 可靠性與可用性（運行時間、復原期望）
+   - 可觀測性（日誌記錄、指標、追蹤信號）
+   - 安全性與隱私（驗證/授權、資料保護、威脅假設）
+   - 合規 / 法規約束（如果有的話）
 
-   Integration & External Dependencies:
-   - External services/APIs and failure modes
-   - Data import/export formats
-   - Protocol/versioning assumptions
+   整合與外部依賴：
+   - 外部服務/API 和失敗模式
+   - 資料匯入/匯出格式
+   - 協定/版本假設
 
-   Edge Cases & Failure Handling:
-   - Negative scenarios
-   - Rate limiting / throttling
-   - Conflict resolution (e.g., concurrent edits)
+   邊緣情況與失敗處理：
+   - 負面情境
+   - 頻率限制 / 節流
+   - 衝突解決（例如，並發編輯）
 
-   Constraints & Tradeoffs:
-   - Technical constraints (language, storage, hosting)
-   - Explicit tradeoffs or rejected alternatives
+   約束與權衡：
+   - 技術約束（語言、儲存、託管）
+   - 明確的權衡或被拒絕的替代方案
 
-   Terminology & Consistency:
-   - Canonical glossary terms
-   - Avoided synonyms / deprecated terms
+   術語與一致性：
+   - 標準詞彙表術語
+   - 避免的同義詞 / 棄用術語
 
-   Completion Signals:
-   - Acceptance criteria testability
-   - Measurable Definition of Done style indicators
+   完成信號：
+   - 驗收標準可測試性
+   - 可衡量的完成定義式指標
 
-   Misc / Placeholders:
-   - TODO markers / unresolved decisions
-   - Ambiguous adjectives ("robust", "intuitive") lacking quantification
+   其他 / 佔位符：
+   - TODO 標記 / 未解決的決策
+   - 缺乏量化的模糊形容詞（「強健」、「直觀」）
 
-   For each category with Partial or Missing status, add a candidate question opportunity unless:
-   - Clarification would not materially change implementation or validation strategy
-   - Information is better deferred to planning phase (note internally)
+   對於狀態為部分或遺失的每個類別，除非滿足以下條件，否則添加候選問題機會：
+   - 澄清不會實質性地改變實作或驗證策略
+   - 資訊最好延遲到規劃階段（內部記錄）
 
-3. Generate (internally) a prioritized queue of candidate clarification questions (maximum 5). Do NOT output them all at once. Apply these constraints:
-    - Maximum of 10 total questions across the whole session.
-    - Each question must be answerable with EITHER:
-       * A short multiple‑choice selection (2–5 distinct, mutually exclusive options), OR
-       * A one-word / short‑phrase answer (explicitly constrain: "Answer in <=5 words").
-   - Only include questions whose answers materially impact architecture, data modeling, task decomposition, test design, UX behavior, operational readiness, or compliance validation.
-   - Ensure category coverage balance: attempt to cover the highest impact unresolved categories first; avoid asking two low-impact questions when a single high-impact area (e.g., security posture) is unresolved.
-   - Exclude questions already answered, trivial stylistic preferences, or plan-level execution details (unless blocking correctness).
-   - Favor clarifications that reduce downstream rework risk or prevent misaligned acceptance tests.
-   - If more than 5 categories remain unresolved, select the top 5 by (Impact * Uncertainty) heuristic.
+3. 生成（內部）優先順序候選澄清問題佇列（最多 5 個）。不要一次全部輸出。應用以下約束：
+    - 整個會話最多 10 個問題。
+    - 每個問題必須可以用以下任一方式回答：
+       * 短的多項選擇（2-5 個不同、互斥的選項），或
+       * 一個單詞 / 短語答案（明確約束：「答案 ≤5 個詞」）。
+   - 只包含答案會實質性地影響架構、資料建模、任務分解、測試設計、UX 行為、營運準備或合規驗證的問題。
+   - 確保類別覆蓋平衡：嘗試首先覆蓋最高影響的未解決類別；當單一高影響區域（例如，安全態勢）未解決時，避免詢問兩個低影響問題。
+   - 排除已回答的問題、瑣碎的風格偏好，或計畫層級的執行細節（除非阻礙正確性）。
+   - 偏好減少下游返工風險或防止驗收測試錯位的澄清。
+   - 如果超過 5 個類別仍未解決，使用（影響 * 不確定性）啟發式選擇前 5 個。
 
-4. Sequential questioning loop (interactive):
-    - Present EXACTLY ONE question at a time.
-    - For multiple‑choice questions render options as a Markdown table:
+4. 循序問答循環（互動式）：
+    - 一次只提出一個問題。
+    - 對於多項選擇問題，將選項呈現為 Markdown 表格：
 
-       | Option | Description |
-       |--------|-------------|
-       | A | <Option A description> |
-       | B | <Option B description> |
-       | C | <Option C description> | (add D/E as needed up to 5)
-       | Short | Provide a different short answer (<=5 words) | (Include only if free-form alternative is appropriate)
+       | 選項 | 描述 |
+       |------|------|
+       | A | <選項 A 描述> |
+       | B | <選項 B 描述> |
+       | C | <選項 C 描述> | （視需要添加 D/E，最多 5 個）
+       | 自訂 | 提供不同的簡短答案（≤5 個詞）| （僅在自由形式替代方案合適時包含）
 
-    - For short‑answer style (no meaningful discrete options), output a single line after the question: `Format: Short answer (<=5 words)`.
-    - After the user answers:
-       * Validate the answer maps to one option or fits the <=5 word constraint.
-       * If ambiguous, ask for a quick disambiguation (count still belongs to same question; do not advance).
-       * Once satisfactory, record it in working memory (do not yet write to disk) and move to the next queued question.
-    - Stop asking further questions when:
-       * All critical ambiguities resolved early (remaining queued items become unnecessary), OR
-       * User signals completion ("done", "good", "no more"), OR
-       * You reach 5 asked questions.
-    - Never reveal future queued questions in advance.
-    - If no valid questions exist at start, immediately report no critical ambiguities.
+    - 對於簡短回答風格（沒有有意義的離散選項），在問題後輸出單行：`格式：簡短答案（≤5 個詞）`。
+    - 在使用者回答後：
+       * 驗證答案對應到一個選項或符合 ≤5 個詞的約束。
+       * 如果模糊，要求快速澄清（計數仍屬於同一問題；不前進）。
+       * 一旦滿意，將其記錄在工作記憶中（尚未寫入磁碟）並移動到下一個佇列問題。
+    - 在以下情況停止詢問更多問題：
+       * 所有關鍵歧義提前解決（剩餘佇列項目變得不必要），或
+       * 使用者表示完成（「完成」、「好」、「不再有」），或
+       * 您達到 5 個已詢問的問題。
+    - 絕不提前透露未來佇列的問題。
+    - 如果開始時沒有有效問題，立即報告沒有關鍵歧義。
 
-5. Integration after EACH accepted answer (incremental update approach):
-    - Maintain in-memory representation of the spec (loaded once at start) plus the raw file contents.
-    - For the first integrated answer in this session:
-       * Ensure a `## Clarifications` section exists (create it just after the highest-level contextual/overview section per the spec template if missing).
-       * Under it, create (if not present) a `### Session YYYY-MM-DD` subheading for today.
-    - Append a bullet line immediately after acceptance: `- Q: <question> → A: <final answer>`.
-    - Then immediately apply the clarification to the most appropriate section(s):
-       * Functional ambiguity → Update or add a bullet in Functional Requirements.
-       * User interaction / actor distinction → Update User Stories or Actors subsection (if present) with clarified role, constraint, or scenario.
-       * Data shape / entities → Update Data Model (add fields, types, relationships) preserving ordering; note added constraints succinctly.
-       * Non-functional constraint → Add/modify measurable criteria in Non-Functional / Quality Attributes section (convert vague adjective to metric or explicit target).
-       * Edge case / negative flow → Add a new bullet under Edge Cases / Error Handling (or create such subsection if template provides placeholder for it).
-       * Terminology conflict → Normalize term across spec; retain original only if necessary by adding `(formerly referred to as "X")` once.
-    - If the clarification invalidates an earlier ambiguous statement, replace that statement instead of duplicating; leave no obsolete contradictory text.
-    - Save the spec file AFTER each integration to minimize risk of context loss (atomic overwrite).
-    - Preserve formatting: do not reorder unrelated sections; keep heading hierarchy intact.
-    - Keep each inserted clarification minimal and testable (avoid narrative drift).
+5. 每個接受答案後的整合（增量更新方法）：
+    - 維護規格的記憶內表示（在開始時載入一次）加原始檔案內容。
+    - 對於此會話中第一個整合答案：
+       * 確保存在 `## 澄清` 區段（如果遺失，根據規格範本在最高層級的內容/概述區段之後建立）。
+       * 在其下方，為今天建立（如果不存在）`### 會話 YYYY-MM-DD` 副標題。
+    - 在接受後立即附加項目符號行：`- 問：<問題> → 答：<最終答案>`。
+    - 然後立即將澄清應用到最合適的區段：
+       * 功能歧義 → 在功能需求中更新或添加項目符號。
+       * 使用者互動 / 角色區別 → 用澄清的角色、約束或情境更新使用者故事或角色子區段（如果存在）。
+       * 資料形狀 / 實體 → 更新資料模型（添加欄位、類型、關係）保持順序；簡潔地記錄添加的約束。
+       * 非功能約束 → 在非功能 / 品質屬性區段中添加/修改可測量標準（將模糊形容詞轉換為指標或明確目標）。
+       * 邊緣情況 / 負面流程 → 在邊緣情況 / 錯誤處理下添加新項目符號（或如果範本提供佔位符則建立此子區段）。
+       * 術語衝突 → 規範整個規格中的術語；僅在必要時保留原始術語，通過添加 `（以前稱為「X」）` 一次。
+    - 如果澄清使先前的模糊陳述失效，替換該陳述而不是重複；不留下過時的矛盾文字。
+    - 在每次整合後儲存規格檔案以最小化內容遺失風險（原子覆寫）。
+    - 保持格式：不重新排序無關區段；保持標題層次結構完整。
+    - 保持每個插入的澄清最小且可測試（避免敘述偏移）。
 
-6. Validation (performed after EACH write plus final pass):
-   - Clarifications session contains exactly one bullet per accepted answer (no duplicates).
-   - Total asked (accepted) questions ≤ 5.
-   - Updated sections contain no lingering vague placeholders the new answer was meant to resolve.
-   - No contradictory earlier statement remains (scan for now-invalid alternative choices removed).
-   - Markdown structure valid; only allowed new headings: `## Clarifications`, `### Session YYYY-MM-DD`.
-   - Terminology consistency: same canonical term used across all updated sections.
+6. 驗證（在每次寫入加最終通過後執行）：
+   - 澄清會話每個接受答案包含一個項目符號（無重複）。
+   - 總詢問（接受）問題 ≤ 5。
+   - 更新區段不包含新答案應解決的模糊佔位符。
+   - 沒有矛盾的較早陳述仍然存在（掃描現在無效的替代選擇已移除）。
+   - Markdown 結構有效；只允許新標題：`## 澄清`、`### 會話 YYYY-MM-DD`。
+   - 術語一致性：在所有更新區段中使用相同的標準術語。
 
-7. Write the updated spec back to `FEATURE_SPEC`.
+7. 將更新的規格寫回 `FEATURE_SPEC`。
 
-8. Report completion (after questioning loop ends or early termination):
-   - Number of questions asked & answered.
-   - Path to updated spec.
-   - Sections touched (list names).
-   - Coverage summary table listing each taxonomy category with Status: Resolved (was Partial/Missing and addressed), Deferred (exceeds question quota or better suited for planning), Clear (already sufficient), Outstanding (still Partial/Missing but low impact).
-   - If any Outstanding or Deferred remain, recommend whether to proceed to `/speckit.plan` or run `/speckit.clarify` again later post-plan.
-   - Suggested next command.
+8. 報告完成（問答循環結束或提前終止後）：
+   - 詢問和回答的問題數量。
+   - 更新規格的路徑。
+   - 接觸的區段（列出名稱）。
+   - 覆蓋摘要表格，列出每個分類法類別的狀態：已解決（曾是部分/遺失並已處理）、延遲（超過問題配額或更適合規劃）、清楚（已經足夠）、未解決（仍是部分/遺失但影響低）。
+   - 如果任何未解決或延遲仍然存在，建議是否進行 `/speckit.plan` 或稍後規劃後再次執行 `/speckit.clarify`。
+   - 建議的下一個命令。
 
-Behavior rules:
-- If no meaningful ambiguities found (or all potential questions would be low-impact), respond: "No critical ambiguities detected worth formal clarification." and suggest proceeding.
-- If spec file missing, instruct user to run `/speckit.specify` first (do not create a new spec here).
-- Never exceed 5 total asked questions (clarification retries for a single question do not count as new questions).
-- Avoid speculative tech stack questions unless the absence blocks functional clarity.
-- Respect user early termination signals ("stop", "done", "proceed").
- - If no questions asked due to full coverage, output a compact coverage summary (all categories Clear) then suggest advancing.
- - If quota reached with unresolved high-impact categories remaining, explicitly flag them under Deferred with rationale.
+行為規則：
+- 如果沒有發現有意義的歧義（或所有潛在問題都是低影響），回應：「沒有檢測到值得正式澄清的關鍵歧義。」並建議繼續。
+- 如果規格檔案遺失，指導使用者首先執行 `/speckit.specify`（不要在這裡建立新規格）。
+- 絕不超過總共 5 個詢問問題（單一問題的澄清重試不算作新問題）。
+- 避免推測性技術堆疊問題，除非缺失阻礙功能清晰度。
+- 尊重使用者提前終止信號（「停止」、「完成」、「繼續」）。
+ - 如果由於全面覆蓋而沒有詢問問題，輸出緊湊的覆蓋摘要（所有類別清楚），然後建議前進。
+ - 如果配額達到，剩餘高影響未解決類別，明確在延遲下標記它們並說明理由。
 
-Context for prioritization: {ARGS}
+優先順序排列的內容：{ARGS}
