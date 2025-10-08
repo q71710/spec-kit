@@ -1,24 +1,25 @@
+```markdown
 ---
-description: Generate a custom checklist for the current feature based on user requirements.
+description: 根據使用者需求為當前功能生成自訂檢查清單。
 scripts:
   sh: scripts/bash/check-prerequisites.sh --json
   ps: scripts/powershell/check-prerequisites.ps1 -Json
 ---
 
-## Checklist Purpose: "Unit Tests for English"
+## 檢查清單目的：「英文的單元測試」
 
-**CRITICAL CONCEPT**: Checklists are **UNIT TESTS FOR REQUIREMENTS WRITING** - they validate the quality, clarity, and completeness of requirements in a given domain.
+**核心概念**：檢查清單是**需求撰寫的單元測試** - 它們驗證特定領域中需求的品質、清晰度和完整性。
 
-**NOT for verification/testing**:
-- ❌ NOT "Verify the button clicks correctly"
-- ❌ NOT "Test error handling works"
-- ❌ NOT "Confirm the API returns 200"
-- ❌ NOT checking if code/implementation matches the spec
+**不是用於驗證/測試**：
+- ❌ 不是「驗證按鈕點擊是否正確」
+- ❌ 不是「測試錯誤處理是否正常運作」
+- ❌ 不是「確認 API 是否回傳 200」
+- ❌ 不是檢查程式碼/實作是否符合規格
 
-**FOR requirements quality validation**:
-- ✅ "Are visual hierarchy requirements defined for all card types?" (completeness)
-- ✅ "Is 'prominent display' quantified with specific sizing/positioning?" (clarity)
-- ✅ "Are hover state requirements consistent across all interactive elements?" (consistency)
+**用於需求品質驗證**：
+- ✅ 「是否為所有卡片類型定義了視覺層次需求？」（完整性）
+- ✅ 「『顯眼顯示』是否以特定的大小/位置進行量化？」（清晰度）
+- ✅ 「懸停狀態需求在所有互動元素中是否一致？」（一致性）
 - ✅ "Are accessibility requirements defined for keyboard navigation?" (coverage)
 - ✅ "Does the spec define what happens when logo image fails to load?" (edge cases)
 

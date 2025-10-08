@@ -207,87 +207,87 @@ elif selected_ai == "windsurf":
         agent_tool_missing = True
 ```
 
-**Note**: Skip CLI checks for IDE-based agents (Copilot, Windsurf).
+**注意**：對基於 IDE 的代理（Copilot、Windsurf）跳過 CLI 檢查。
 
-## Agent Categories
+## 代理類別
 
-### CLI-Based Agents
-Require a command-line tool to be installed:
-- **Claude Code**: `claude` CLI
-- **Gemini CLI**: `gemini` CLI  
-- **Cursor**: `cursor-agent` CLI
-- **Qwen Code**: `qwen` CLI
-- **opencode**: `opencode` CLI
+### 基於 CLI 的代理
+需要安裝命令列工具：
+- **Claude Code**：`claude` CLI
+- **Gemini CLI**：`gemini` CLI  
+- **Cursor**：`cursor-agent` CLI
+- **Qwen Code**：`qwen` CLI
+- **opencode**：`opencode` CLI
 
-### IDE-Based Agents
-Work within integrated development environments:
-- **GitHub Copilot**: Built into VS Code/compatible editors
-- **Windsurf**: Built into Windsurf IDE
+### 基於 IDE 的代理
+在整合開發環境中運作：
+- **GitHub Copilot**：內建於 VS Code/相容編輯器
+- **Windsurf**：內建於 Windsurf IDE
 
-## Command File Formats
+## 命令檔案格式
 
-### Markdown Format
-Used by: Claude, Cursor, opencode, Windsurf, Amazon Q Developer
+### Markdown 格式
+使用者：Claude、Cursor、opencode、Windsurf、Amazon Q Developer
 
 ```markdown
 ---
-description: "Command description"
+description: "命令描述"
 ---
 
-Command content with {SCRIPT} and $ARGUMENTS placeholders.
+包含 {SCRIPT} 和 $ARGUMENTS 佔位符的命令內容。
 ```
 
-### TOML Format
-Used by: Gemini, Qwen
+### TOML 格式
+使用者：Gemini、Qwen
 
 ```toml
-description = "Command description"
+description = "命令描述"
 
 prompt = """
-Command content with {SCRIPT} and {{args}} placeholders.
+包含 {SCRIPT} 和 {{args}} 佔位符的命令內容。
 """
 ```
 
-## Directory Conventions
+## 目錄慣例
 
-- **CLI agents**: Usually `.<agent-name>/commands/`
-- **IDE agents**: Follow IDE-specific patterns:
-  - Copilot: `.github/prompts/`
-  - Cursor: `.cursor/commands/`
-  - Windsurf: `.windsurf/workflows/`
+- **CLI 代理**：通常為 `.<agent-name>/commands/`
+- **IDE 代理**：遵循 IDE 特定模式：
+  - Copilot：`.github/prompts/`
+  - Cursor：`.cursor/commands/`
+  - Windsurf：`.windsurf/workflows/`
 
-## Argument Patterns
+## 參數模式
 
-Different agents use different argument placeholders:
-- **Markdown/prompt-based**: `$ARGUMENTS`
-- **TOML-based**: `{{args}}`
-- **Script placeholders**: `{SCRIPT}` (replaced with actual script path)
-- **Agent placeholders**: `__AGENT__` (replaced with agent name)
+不同的代理使用不同的參數佔位符：
+- **基於 Markdown/提示**：`$ARGUMENTS`
+- **基於 TOML**：`{{args}}`
+- **腳本佔位符**：`{SCRIPT}`（替換為實際腳本路徑）
+- **代理佔位符**：`__AGENT__`（替換為代理名稱）
 
-## Testing New Agent Integration
+## 測試新代理整合
 
-1. **Build test**: Run package creation script locally
-2. **CLI test**: Test `specify init --ai <agent>` command
-3. **File generation**: Verify correct directory structure and files
-4. **Command validation**: Ensure generated commands work with the agent
-5. **Context update**: Test agent context update scripts
+1. **建置測試**：在本地執行套件建立腳本
+2. **CLI 測試**：測試 `specify init --ai <agent>` 命令
+3. **檔案生成**：驗證正確的目錄結構和檔案
+4. **命令驗證**：確保生成的命令與代理一起運作
+5. **上下文更新**：測試代理上下文更新腳本
 
-## Common Pitfalls
+## 常見陷阱
 
-1. **Forgetting update scripts**: Both bash and PowerShell scripts must be updated
-2. **Missing CLI checks**: Only add for agents that actually have CLI tools
-3. **Wrong argument format**: Use correct placeholder format for each agent type
-4. **Directory naming**: Follow agent-specific conventions exactly
-5. **Help text inconsistency**: Update all user-facing text consistently
+1. **忘記更新腳本**：必須同時更新 bash 和 PowerShell 腳本
+2. **遺漏 CLI 檢查**：只對實際有 CLI 工具的代理新增檢查
+3. **錯誤的參數格式**：為每種代理類型使用正確的佔位符格式
+4. **目錄命名**：完全遵循代理特定的慣例
+5. **幫助文字不一致**：一致地更新所有面向使用者的文字
 
-## Future Considerations
+## 未來考量
 
-When adding new agents:
-- Consider the agent's native command/workflow patterns
-- Ensure compatibility with the Spec-Driven Development process
-- Document any special requirements or limitations
-- Update this guide with lessons learned
+新增新代理時：
+- 考慮代理的原生命令/工作流程模式
+- 確保與規格驅動開發流程的相容性
+- 記錄任何特殊需求或限制
+- 以學到的經驗更新本指南
 
 ---
 
-*This documentation should be updated whenever new agents are added to maintain accuracy and completeness.*
+*每當新增新代理時，應更新此文件以保持準確性和完整性。*

@@ -1,21 +1,22 @@
+````markdown
 ---
-description: Perform a non-destructive cross-artifact consistency and quality analysis across spec.md, plan.md, and tasks.md after task generation.
+description: 在任務生成後，對 spec.md、plan.md 和 tasks.md 進行非破壞性的跨產物一致性和品質分析。
 scripts:
   sh: scripts/bash/check-prerequisites.sh --json --require-tasks --include-tasks
   ps: scripts/powershell/check-prerequisites.ps1 -Json -RequireTasks -IncludeTasks
 ---
 
-## User Input
+## 使用者輸入
 
 ```text
 $ARGUMENTS
 ```
 
-You **MUST** consider the user input before proceeding (if not empty).
+在繼續之前，您**必須**考慮使用者輸入（如果不為空）。
 
-## Goal
+## 目標
 
-Identify inconsistencies, duplications, ambiguities, and underspecified items across the three core artifacts (`spec.md`, `plan.md`, `tasks.md`) before implementation. This command MUST run only after `/tasks` has successfully produced a complete `tasks.md`.
+在實作之前，識別三個核心產物（`spec.md`、`plan.md`、`tasks.md`）之間的不一致性、重複、歧義和規格不足的項目。此命令**必須**只在 `/tasks` 成功產生完整的 `tasks.md` 之後執行。
 
 ## Operating Constraints
 
