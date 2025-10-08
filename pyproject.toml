@@ -1,12 +1,12 @@
 [project]
 name = "specify-cli"
-version = "0.0.3"
-description = "Setup tool for Specify spec-driven development projects"
+version = "0.0.18"
+description = "Specify CLI，GitHub Spec Kit 的一部分。一個用於引導您的專案進行規格驅動開發（SDD）的工具。"
 requires-python = ">=3.11"
 dependencies = [
     "typer",
     "rich",
-    "httpx",
+    "httpx[socks]",
     "platformdirs",
     "readchar",
     "truststore>=0.10.4",
